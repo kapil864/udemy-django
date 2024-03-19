@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-from django.template.loader import render_to_string
 # Create your views here.
 
 monthly_releases = {
@@ -33,8 +32,7 @@ def month_challenges_by_numbers(request, month):
 def month_challenges(request, month):
     try:
         content = monthly_releases[month]
-        html_string = render_to_string('challenges/challenge.html')
-        return HttpResponse(html_string)
+        return render(request, 'challenges/challenge.html')
     except KeyError:
         return HttpResponseNotFound("Mentioned release is not available")
 
