@@ -15,7 +15,7 @@ monthly_releases = {
     "september": ["Bleach: Thousand-Year Blood War Arc", "Banished from the Heroes' Party"],
     "october": ["Black Clover: Quartet Knights", "Platinum End"],
     "november": ["Dragon Ball Super: Super Hero (Movie)", "Mushoku Tensei: Jobless Reincarnation Season 2"],
-    "december": ["Sword Art Online Progressive: Aria of a Starless Night", "The Faraway Paladin"]
+    "december": None
 }
 
 
@@ -39,10 +39,5 @@ def month_challenges(request, month):
 
 def index(request):
     months = list(monthly_releases.keys())
-    html = '<h4><ul>'
-    for month in months:
-        month_path = reverse('release-month', args=[month])
-        html += f"<li><a href=\"{month_path}\">{month.capitalize()}</a></li>"
-        
-    html += '</ul></h4>'
-    return HttpResponse(html)
+    # returning months keys and values as months list
+    return render(request, 'challenges/index.html', {"months":months})
