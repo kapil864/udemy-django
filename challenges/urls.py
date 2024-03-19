@@ -3,6 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('january', view=views.january),
-    path('february', view=views.february)
+    path('<month>', view=views.monthy_challenges)
 ]
