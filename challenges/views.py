@@ -32,7 +32,7 @@ def month_challenges_by_numbers(request, month):
 def month_challenges(request, month):
     try:
         content = monthly_releases[month]
-        return render(request, 'challenges/challenge.html')
+        return render(request, 'challenges/challenge.html', {'text': content, 'month': month.capitalize()})
     except KeyError:
         return HttpResponseNotFound("Mentioned release is not available")
 
@@ -41,7 +41,7 @@ def index(request):
     months = list(monthly_releases.keys())
     html = '<h4><ul>'
     for month in months:
-        month_path = reverse("release-month", args=[month])
+        month_path = reverse('release-month', args=[month])
         html += f"<li><a href=\"{month_path}\">{month.capitalize()}</a></li>"
         
     html += '</ul></h4>'
