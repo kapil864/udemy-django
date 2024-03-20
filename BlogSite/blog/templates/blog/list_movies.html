@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    All Movies
+{% endblock page_title %}
+
+{% block content %}
+<div>
+
+    {% for movie in movies %}
+    <div class="movie-container">
+        <h2><a href="{% url "a-release" slug=movie.Title %}">{{ movie.Title }}</a></h2>
+        
+        <p class="movie-info"><strong>Year:</strong> {{ movie.Year }}</p>
+        <p class="movie-info"><strong>Rated:</strong> {{ movie.Rated }}</p>
+        <p class="movie-info"><strong>Released:</strong> {{ movie.Released }}</p>
+        <p class="movie-info"><strong>Genre:</strong> {{ movie.Genre }}</p>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+
