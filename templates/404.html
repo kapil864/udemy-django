@@ -1,4 +1,11 @@
-<h2>Page not found </h2>
+{% extends "base.html" %}
+
+{% block page_title %}
+    Not found
+{% endblock page_title %}
+   
+{% block content %}
+    <h2>Page not found </h2>
 <h4>
 Cannot find the page you are looking for
 　　　　　／＞　　フ
@@ -8,3 +15,6 @@ Cannot find the page you are looking for
 　　　 /　 ヽ　　 ﾉ
 　 　 │　　| | |
 </h4>
+{% endblock content %}
+
+
