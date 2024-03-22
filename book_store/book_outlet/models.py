@@ -5,13 +5,20 @@ from django.urls import reverse
 from django.utils.text import slugify
 # Create your models here.
 
+class Author(models.Model):
+
+    first_name = models.CharField(max_length = 100)
+    last_name = models.CharField(max_length = 100)
+
 
 class Book(models.Model):
 
     title = models.CharField(max_length=50)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)])
-    author = models.CharField(max_length=50, null=True)
+    # Adding a foreign key
+    # on_delete = models.CASCADE delete book when author is deleted
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     # db_index = True tells DB to index slug field
     # blank = True, allows this field to be blank in django admin panel
     # editable = False , field becomes uneditable in django admin panel
