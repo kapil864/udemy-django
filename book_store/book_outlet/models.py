@@ -18,7 +18,7 @@ class Book(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     # Adding a foreign key
     # on_delete = models.CASCADE delete book when author is deleted
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, related_name="books")
     # db_index = True tells DB to index slug field
     # blank = True, allows this field to be blank in django admin panel
     # editable = False , field becomes uneditable in django admin panel
