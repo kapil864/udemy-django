@@ -10,6 +10,13 @@ class Country(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=2)
 
+    def __str__(self):
+        return f"{self.name}"
+    
+    # add meta information to models
+    class Meta:
+        verbose_name_plural='Countries'
+    
 
 class Address(models.Model):
     street = models.CharField(max_length=100)
@@ -58,7 +65,7 @@ class Book(models.Model):
     is_best_selling = models.BooleanField(default=False)
 
     # no need to add on_delete field as data is stored in third table for this relationship
-    published_countries = models.ManyToManyField(Country)
+    published_countries = models.ManyToManyField(Country, related_name="books")
 
     def __str__(self):
         return f"{self.title}"
