@@ -12,8 +12,11 @@ class Book(models.Model):
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     author = models.CharField(max_length=50, null=True)
-    # tells DB to index slug field
-    slug = models.SlugField(default="", null=False, db_index=True)
+    # db_index = True tells DB to index slug field
+    # blank = True, allows this field to be blank in django admin panel
+    # editable = False , field becomes uneditable in django admin panel
+    slug = models.SlugField(default="", blank=True,
+                            null=False, editable=False, db_index=True)
     # default value is False
     is_best_selling = models.BooleanField(default=False)
 
