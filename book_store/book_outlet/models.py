@@ -16,7 +16,7 @@ class Book(models.Model):
     # blank = True, allows this field to be blank in django admin panel
     # editable = False , field becomes uneditable in django admin panel
     slug = models.SlugField(default="", blank=True,
-                            null=False, editable=False, db_index=True)
+                            null=False, db_index=True)
     # default value is False
     is_best_selling = models.BooleanField(default=False)
 
