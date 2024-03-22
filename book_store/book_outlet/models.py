@@ -5,10 +5,18 @@ from django.urls import reverse
 from django.utils.text import slugify
 # Create your models here.
 
+
+class Address(models.Model):
+    street = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=6)
+    city = models.CharField(max_length=20)
+
+
 class Author(models.Model):
 
-    first_name = models.CharField(max_length = 100)
-    last_name = models.CharField(max_length = 100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True)
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -24,7 +32,8 @@ class Book(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     # Adding a foreign key
     # on_delete = models.CASCADE delete book when author is deleted
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, related_name="books")
+    author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, null=True, related_name="books")
     # db_index = True tells DB to index slug field
     # blank = True, allows this field to be blank in django admin panel
     # editable = False , field becomes uneditable in django admin panel
