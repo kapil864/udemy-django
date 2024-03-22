@@ -6,6 +6,11 @@ from django.utils.text import slugify
 # Create your models here.
 
 
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=2)
+
+
 class Address(models.Model):
     street = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=6)
@@ -13,10 +18,10 @@ class Address(models.Model):
 
     def get_address(self):
         return f"{self.street}, {self.postal_code}, {self.city}"
-    
+
     def __str__(self) -> str:
         return self.get_address()
-    
+
     class Meta:
         verbose_name_plural = "Address Entries"
 
@@ -25,7 +30,8 @@ class Author(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True)
+    address = models.OneToOneField(
+        Address, on_delete=models.CASCADE, null=True)
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -50,6 +56,9 @@ class Book(models.Model):
                             null=False, db_index=True)
     # default value is False
     is_best_selling = models.BooleanField(default=False)
+
+    # no need to add on_delete field as data is stored in third table for this relationship
+    published_countries = models.ManyToManyField(Country)
 
     def __str__(self):
         return f"{self.title}"
