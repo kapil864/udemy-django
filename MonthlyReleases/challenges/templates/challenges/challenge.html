@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "challenges/release.css" %}">
+{% endblock css_files %}
+
+
+{% block page_title %}
+{{month|title}} Release
+{% endblock page_title %}
+
+
+{% block content %}
+
+    {% include "challenges/snippets/header.html" %}
+    <h1>{{month|title}}'s release.</h1>
+    {% if text is not None %}
+        <h2>{{text}}</h2>
+    {% else %}
+         <h2>No releases yet</h2>
+    {% endif %}
+{% endblock content %}
