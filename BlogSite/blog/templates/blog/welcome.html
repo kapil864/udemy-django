@@ -10,7 +10,11 @@ Welcome
         <ul>
             {% for movie in latest_movies %}
             <li>
+<<<<<<< HEAD
                <a href="{% url "a-release" slug=movie.Title %}">{{ movie.Title }}</a>
+=======
+               <a href="{{movie.get_absolute_url}}">{{ movie.title | capfirst }}</a>
+>>>>>>> blogging-site
             </li>
             {% endfor %}
         </ul>

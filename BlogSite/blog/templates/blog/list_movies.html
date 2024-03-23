@@ -9,12 +9,20 @@
 
     {% for movie in movies %}
     <div class="movie-container">
+<<<<<<< HEAD
         <h2><a href="{% url "a-release" slug=movie.Title %}">{{ movie.Title }}</a></h2>
         
         <p class="movie-info"><strong>Year:</strong> {{ movie.Year }}</p>
         <p class="movie-info"><strong>Rated:</strong> {{ movie.Rated }}</p>
         <p class="movie-info"><strong>Released:</strong> {{ movie.Released }}</p>
         <p class="movie-info"><strong>Genre:</strong> {{ movie.Genre }}</p>
+=======
+        <h2><a href="{{movie.get_absolute_url}}">{{ movie.title | capfirst }}</a></h2>
+        
+        <p class="movie-info"><strong>Rated:</strong> {{ movie.rated }}</p>
+        <p class="movie-info"><strong>Released:</strong> {{ movie.released }}</p>
+        <p class="movie-info"><strong>Genre:</strong> {% for genre in movie.genre.all %} {{genre}} {% endfor %}</p>
+>>>>>>> blogging-site
 
     </div>
     {% endfor %}

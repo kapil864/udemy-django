@@ -1,6 +1,62 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse
 
 # Create your models here.
+
+
+class Staff(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+
+class Genre(models.Model):
+    genre = models.CharField(max_length=10)
+
+    def __str__(self) -> str:
+        return f'{self.genre}'
+
+
+class Director(Staff):
+    pass
+
+
+class Actor(Staff):
+    pass
+
+
+class Writer(Staff):
+    pass
+
+
+class Movie(models.Model):
+    title = models.CharField(max_length=50)
+    rated = models.CharField(max_length=10)
+    released = models.DateField(blank=True)
+    runtime = models.IntegerField(blank=True)
+    genre = models.ManyToManyField(Genre, related_name='Movies')
+    director = models.ForeignKey(
+        Director, related_name='Movies', on_delete=models.CASCADE)
+    writer = models.ManyToManyField(Writer, related_name='Movies')
+    plot = models.TextField()
+    imdb_rating = models.FloatField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)])
+    slug = models.SlugField(default='', blank=True, db_index=True)
+    poster = models.CharField(default='', null=True, max_length=1000)
+
+    def __str__(self) -> str:
+        return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse("a-release", args=[self.slug])
+
+
 
 movies_data = [
     {
@@ -176,12 +232,12 @@ movies_data = [
     },
     {
         "Title": "Game of Thrones",
-        "Year": "2011–",
+        "Year": "2011",
         "Rated": "TV-MA",
         "Released": "17 Apr 2011",
         "Runtime": "56 min",
         "Genre": "Adventure, Drama, Fantasy",
-        "Director": "N/A",
+        "Director": "Alan Taylor",
         "Writer": "David Benioff, D.B. Weiss",
         "Actors": "Peter Dinklage, Lena Headey, Emilia Clarke, Kit Harington",
         "Plot": "While a civil war brews between several noble families in Westeros, the children of the former rulers of the land attempt to rise up to power. Meanwhile a forgotten race, bent on destruction, plans to return after thousands of years in the North.",
@@ -206,12 +262,12 @@ movies_data = [
     },
     {
         "Title": "Vikings",
-        "Year": "2013–",
+        "Year": "2013",
         "Rated": "TV-14",
         "Released": "03 Mar 2013",
         "Runtime": "44 min",
         "Genre": "Action, Drama, History",
-        "Director": "N/A",
+        "Director": "Ciaran Donnelly",
         "Writer": "Michael Hirst",
         "Actors": "Travis Fimmel, Clive Standen, Gustaf Skarsgård, Katheryn Winnick",
         "Plot": "The world of the Vikings is brought to life through the journey of Ragnar Lothbrok, the first Viking to emerge from Norse legend and onto the pages of history - a man on the edge of myth.",
@@ -236,12 +292,12 @@ movies_data = [
     },
     {
         "Title": "Gotham",
-        "Year": "2014–",
+        "Year": "2014",
         "Rated": "TV-14",
         "Released": "01 Aug 2014",
         "Runtime": "42 min",
         "Genre": "Action, Crime, Drama",
-        "Director": "N/A",
+        "Director": "Danny Cannon",
         "Writer": "Bruno Heller",
         "Actors": "Ben McKenzie, Donal Logue, David Mazouz, Sean Pertwee",
         "Plot": "The story behind Detective James Gordon's rise to prominence in Gotham City in the years before Batman's arrival.",
@@ -266,12 +322,12 @@ movies_data = [
     },
     {
         "Title": "Power",
-        "Year": "2014–",
+        "Year": "2014",
         "Rated": "TV-MA",
-        "Released": "N/A",
+        "Released": "01 Nov 2018",
         "Runtime": "50 min",
         "Genre": "Crime, Drama",
-        "Director": "N/A",
+        "Director": "Sanford Bookstaver",
         "Writer": "Courtney Kemp Agboh",
         "Actors": "Omari Hardwick, Joseph Sikora, Andy Bean, Lela Loren",
         "Plot": "James \"Ghost\" St. Patrick, a wealthy New York night club owner who has it all, catering for the city's elite and dreaming big, lives a double life as a drug kingpin.",
@@ -296,12 +352,12 @@ movies_data = [
     },
     {
         "Title": "Narcos",
-        "Year": "2015–",
+        "Year": "2015",
         "Rated": "TV-MA",
         "Released": "28 Aug 2015",
         "Runtime": "49 min",
         "Genre": "Biography, Crime, Drama",
-        "Director": "N/A",
+        "Director": "Gabrial Repstein",
         "Writer": "Carlo Bernard, Chris Brancato, Doug Miro, Paul Eckstein",
         "Actors": "Wagner Moura, Boyd Holbrook, Pedro Pascal, Joanna Christie",
         "Plot": "A chronicled look at the criminal exploits of Colombian drug lord Pablo Escobar.",
@@ -331,7 +387,7 @@ movies_data = [
         "Released": "20 Jan 2008",
         "Runtime": "49 min",
         "Genre": "Crime, Drama, Thriller",
-        "Director": "N/A",
+        "Director": "Michelle MacLaren",
         "Writer": "Vince Gilligan",
         "Actors": "Bryan Cranston, Anna Gunn, Aaron Paul, Dean Norris",
         "Plot": "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's financial future.",

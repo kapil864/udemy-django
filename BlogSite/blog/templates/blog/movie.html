@@ -8,23 +8,22 @@
 {% block content %}
 <main>
     <div class="movie-container">
-        <h2>{{ movie.Title }}</h2>
-        <p class="movie-info"><strong>Year:</strong> {{ movie.Year }}</p>
-        <p class="movie-info"><strong>Rated:</strong> {{ movie.Rated }}</p>
-        <p class="movie-info"><strong>Released:</strong> {{ movie.Released }}</p>
-        <p class="movie-info"><strong>Runtime:</strong> {{ movie.Runtime }}</p>
-        <p class="movie-info"><strong>Genre:</strong> {{ movie.Genre }}</p>
-        <p class="movie-info"><strong>Director:</strong> {{ movie.Director }}</p>
-        <p class="movie-info"><strong>Writer:</strong> {{ movie.Writer }}</p>
-        <p class="movie-info"><strong>Actors:</strong> {{ movie.Actors }}</p>
-        <p class="movie-info"><strong>Plot:</strong> {{ movie.Plot }}</p>
-        <p class="movie-info"><strong>Language:</strong> {{ movie.Language }}</p>
-        <p class="movie-info"><strong>Country:</strong> {{ movie.Country }}</p>
-        <p class="movie-info"><strong>Awards:</strong> {{ movie.Awards }}</p>
-        <p class="movie-info"><strong>Metascore:</strong> {{ movie.Metascore }}</p>
-        <p class="movie-info"><strong>IMDB Rating:</strong> {{ movie.imdbRating }}</p>
-        <p class="movie-info"><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p>
-        <img class="movie-poster" src= "{{movie.Poster}}" alt="Movie Poster">
+        <h2>{{ movie.title }}</h2>
+        <p class="movie-info"><strong>Rated:</strong> {{ movie.rated }}</p>
+        <p class="movie-info"><strong>Released:</strong> {{ movie.released }}</p>
+        <p class="movie-info"><strong>Runtime:</strong> {{ movie.runtime }}</p>
+        <p class="movie-info"><strong>Genre:</strong>{% for genre in movie.genre.all %} {{genre}} {% endfor %}</p>
+        <p class="movie-info"><strong>Director:</strong> {{ movie.director }}</p>
+        <p class="movie-info"><strong>Writer:</strong> {% for writer in movie.writer.all %} {{writer}} {% endfor %}}</p>
+        {% comment %} <p class="movie-info"><strong>Actors:</strong> {{ movie.Actors }}</p> {% endcomment %}
+        <p class="movie-info"><strong>Plot:</strong> {{ movie.plot }}</p>
+        {% comment %} <p class="movie-info"><strong>Language:</strong> {{ movie.Language }}</p> {% endcomment %}
+        {% comment %} <p class="movie-info"><strong>Country:</strong> {{ movie.Country }}</p> {% endcomment %}
+        {% comment %} <p class="movie-info"><strong>Awards:</strong> {{ movie.Awards }}</p> {% endcomment %}
+        {% comment %} <p class="movie-info"><strong>Metascore:</strong> {{ movie.Metascore }}</p> {% endcomment %}
+        <p class="movie-info"><strong>IMDB Rating:</strong> {{ movie.imdb_rating }}</p>
+        {% comment %} <p class="movie-info"><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p> {% endcomment %}
+        {% comment %} <img class="movie-poster" src= "{{movie.Poster}}" alt="Movie Poster"> {% endcomment %}
     </div>
 </main>
 {% endblock content %}
