@@ -22,6 +22,8 @@ class ReviewView(View):
             return HttpResponseRedirect('/thank-you')
         
         return render(request, 'reviews/review.html', {'form':form})
+    
 
-def thankyou(request):
-    return render(request, 'reviews/thank_you.html')
+class ThankYouView(View):
+    def get(self, request):
+        return render(request, 'reviews/thank_you.html')
