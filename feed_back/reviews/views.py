@@ -5,8 +5,12 @@ from django.http import HttpResponseRedirect
 def review(request):
     if request.method == 'POST':
         entered_username = request.POST['username']
-        return HttpResponseRedirect('/thank-you')
-    return render(request, 'reviews/review.html')
+        if entered_username and entered_username == '' and len(entered_username) >= 100:
+            return HttpResponseRedirect('/thank-you')
+        
+        return render(request, 'reviews/review.html', {'has_error':True})
+        
+    return render(request, 'reviews/review.html', {'has_error':False})
 
 
 def thankyou(request):
