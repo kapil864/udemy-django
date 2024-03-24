@@ -26,6 +26,23 @@
         <img class="movie-poster" src= "{{movie.poster_img.url}}" alt="Movie Poster">
     </div>
 </main>
+<section>
+    <div>
+        {% for comment in comments %}
+        <p>By {{comment.user_name}}</p>
+        <p>{{comment.text}}</p>
+        {% endfor %}
+    </div>
+</section>
+<section>
+    <div>
+        <form action="{% url "a-release" slug=movie.slug %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+        <button>Save comment</button>
+        </form>
+    </div>
+</section>
 {% endblock content %}
 
 

@@ -57,6 +57,11 @@ class Movie(models.Model):
         return reverse("a-release", args=[self.slug])
 
 
+class Comment(models.Model):
+    user_name = models.CharField(max_length = 50)
+    text = models.TextField()
+    movie = models.ForeignKey(Movie, related_name='comments', on_delete=models.CASCADE, blank=True)
+
 
 movies_data = [
     {
