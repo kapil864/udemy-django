@@ -5,7 +5,9 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, FormView
+
 
 
 from .forms import ReviewForm
@@ -13,20 +15,16 @@ from .models import Review
 
 # Create your views here.
 
-# form view will get forms
+# CreateVIew 
+# view will get forms
 # validate it
-# we can specify what to do with form
+# save it
+class ReviewView(CreateView):
 
-
-class ReviewView(FormView):
-
+    model=Review
     form_class = ReviewForm
     template_name = 'reviews/review.html'
     success_url = '/thank-you'
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
 
 
 # works for get requests
