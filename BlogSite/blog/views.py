@@ -45,3 +45,36 @@ class ReleaseDetailView(View):
             comment.save()
             return HttpResponseRedirect(reverse('a-release',args=[slug]))
         return render(request, 'blog/movie.html', {'movie': movie, 'comment_form': form})
+
+
+class WatchLaterView(View):
+
+    def get(self, request):
+        stored_movies = request.session.get('stored_movies')
+        context = {}
+
+        if stored_movies is None or len(stored_movies) == 0:
+            context['movies'] = []
+            context['has_movies'] = False
+        else:
+            movies = Movie.objects.filter(id__in=stored_movies)
+            print(movies)
+            context['movies'] = movies
+            context['has_movies'] = True
+
+        return render(request, 'blog/watch_later.html', context=context)
+    
+    def post(self, request):
+        stored_movies = request.session.get('stored_movies')
+        
+        if stored_movies is None:
+            stored_movies = list()
+        
+        movie_id = int(request.POST['movie_id'])
+        if movie_id not in stored_movies:
+            stored_movies.append(movie_id)
+
+        request.session['stored_movies'] = stored_movies
+        return HttpResponseRedirect('/')
+    
+

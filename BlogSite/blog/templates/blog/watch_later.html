@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block page_title %}
+Watch-later
+{% endblock page_title %}
+
+{% block content %}
+{% if has_movies %}
+<section>
+    <ul>
+        {% for movie in movies %}
+        <li>
+            <a href="{% url "a-release" slug=movie.slug %}">{{movie.title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% else %}
+Nothing here
+{% endif %}
+{% endblock content %}

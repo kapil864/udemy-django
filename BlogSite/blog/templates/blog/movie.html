@@ -28,10 +28,21 @@
 </main>
 <section>
     <div>
-        {% for comment in comments %}
-        <p>By {{comment.user_name}}</p>
-        <p>{{comment.text}}</p>
-        {% endfor %}
+        <form action="{% url "watch-later" %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="movie_id" value="{{ movie.id}}">
+            <button>Watch Later</button>
+        </form>
+    </div>
+</section>
+<section>
+    <div>
+        {% if comments %}
+            {% for comment in comments %}
+            <p>By {{comment.user_name}}</p>
+            <p>{{comment.text}}</p>
+            {% endfor %}
+        {% endif %}
     </div>
 </section>
 <section>
