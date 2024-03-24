@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import movies_data
 from django.http import Http404
 from .models import Movie
 from django.views.generic import View

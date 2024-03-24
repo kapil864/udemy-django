@@ -48,7 +48,7 @@ class Movie(models.Model):
     imdb_rating = models.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(10)])
     slug = models.SlugField(default='', blank=True, db_index=True)
-    poster = models.CharField(default='', null=True, max_length=1000)
+    poster_img = models.ImageField(upload_to='posters', blank=True)
 
     def __str__(self) -> str:
         return f'{self.title}'

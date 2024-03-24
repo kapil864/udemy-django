@@ -23,7 +23,7 @@
         {% comment %} <p class="movie-info"><strong>Metascore:</strong> {{ movie.Metascore }}</p> {% endcomment %}
         <p class="movie-info"><strong>IMDB Rating:</strong> {{ movie.imdb_rating }}</p>
         {% comment %} <p class="movie-info"><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p> {% endcomment %}
-        {% comment %} <img class="movie-poster" src= "{{movie.Poster}}" alt="Movie Poster"> {% endcomment %}
+        <img class="movie-poster" src= "{{movie.poster_img.url}}" alt="Movie Poster">
     </div>
 </main>
 {% endblock content %}
