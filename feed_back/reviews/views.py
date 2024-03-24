@@ -53,6 +53,8 @@ class SingleReviewView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        # fetch argument from a url
         review_id = kwargs['id']
         context["review"] = Review.objects.get(pk=review_id)
         return context
