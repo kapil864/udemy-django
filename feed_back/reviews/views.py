@@ -1,8 +1,11 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.base import TemplateView
+from django.views.generic import ListView
+
 
 from .forms import ReviewForm
 from .models import Review
@@ -39,13 +42,25 @@ class ThankYouView(TemplateView):
         return context
     
 
-class ReviewListView(TemplateView):
+# Woks for get requests
+# where a list of objects is required
+# automatically fetches data from a defined model
+class ReviewListView(ListView):
+
     template_name = 'reviews/review_list.html'
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["reviews"] = Review.objects.all() 
-        return context
+    # Define model
+    model=Review
+
+    # context name to be used in templates by default it is object_list
+    context_object_name = 'reviews'
+
+
+    # Customizing query
+    def get_queryset(self) -> QuerySet[Any]:
+        base_query = super().get_queryset()
+        data = base_query.filter(rating__gt=1)
+        return data
     
 
 class SingleReviewView(TemplateView):
