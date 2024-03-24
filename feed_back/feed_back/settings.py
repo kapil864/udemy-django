@@ -124,4 +124,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# path for storing media
 MEDIA_ROOT =  BASE_DIR / 'uploads'
+
+# url for serving media
+MEDIA_URL = '/user-media/'
