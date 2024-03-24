@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView
+from django.views.generic import DetailView
 
 
 from .forms import ReviewForm
@@ -56,22 +57,15 @@ class ReviewListView(ListView):
     context_object_name = 'reviews'
 
 
-    # Customizing query
-    def get_queryset(self) -> QuerySet[Any]:
-        base_query = super().get_queryset()
-        data = base_query.filter(rating__gt=1)
-        return data
+    # # Customizing query
+    # def get_queryset(self) -> QuerySet[Any]:
+    #     base_query = super().get_queryset()
+    #     data = base_query.filter(rating__gt=1)
+    #     return data
     
 
-class SingleReviewView(TemplateView):
+class SingleReviewView(DetailView):
     template_name = 'reviews/single_review.html'
-
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-
-        # fetch argument from a url
-        review_id = kwargs['id']
-        context["review"] = Review.objects.get(pk=review_id)
-        return context
+    model=Review
 
     
