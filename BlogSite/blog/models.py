@@ -4,7 +4,6 @@ from django.urls import reverse
 
 # Create your models here.
 
-
 class Staff(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

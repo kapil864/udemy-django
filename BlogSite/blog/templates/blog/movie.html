@@ -6,51 +6,61 @@
 {% endblock page_title %}
 
 {% block content %}
-<main>
-    <div class="movie-container">
-        <h2>{{ movie.title }}</h2>
-        <p class="movie-info"><strong>Rated:</strong> {{ movie.rated }}</p>
-        <p class="movie-info"><strong>Released:</strong> {{ movie.released }}</p>
-        <p class="movie-info"><strong>Runtime:</strong> {{ movie.runtime }}</p>
-        <p class="movie-info"><strong>Genre:</strong>{% for genre in movie.genre.all %} {{genre}} {% endfor %}</p>
-        <p class="movie-info"><strong>Director:</strong> {{ movie.director }}</p>
-        <p class="movie-info"><strong>Writer:</strong> {% for writer in movie.writer.all %} {{writer}} {% endfor %}}</p>
-        {% comment %} <p class="movie-info"><strong>Actors:</strong> {{ movie.Actors }}</p> {% endcomment %}
-        <p class="movie-info"><strong>Plot:</strong> {{ movie.plot }}</p>
-        {% comment %} <p class="movie-info"><strong>Language:</strong> {{ movie.Language }}</p> {% endcomment %}
-        {% comment %} <p class="movie-info"><strong>Country:</strong> {{ movie.Country }}</p> {% endcomment %}
-        {% comment %} <p class="movie-info"><strong>Awards:</strong> {{ movie.Awards }}</p> {% endcomment %}
-        {% comment %} <p class="movie-info"><strong>Metascore:</strong> {{ movie.Metascore }}</p> {% endcomment %}
-        <p class="movie-info"><strong>IMDB Rating:</strong> {{ movie.imdb_rating }}</p>
-        {% comment %} <p class="movie-info"><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p> {% endcomment %}
-        <img class="movie-poster" src= "{{movie.poster_img.url}}" alt="Movie Poster">
+<main class="">
+    <div class="card" style="max-width: 40rem;">
+        <div class="">            
+            <img src= "{{movie.poster_img.url}}" alt="Movie Poster" class="card-img-top p-3">
+            <div class="card-body">
+                <h2 class="card-title">{{ movie.title }}</h2>
+                <p class="card-text"><strong>Rated:</strong> {{ movie.rated }}</p>
+                <p class="card-text"><strong>Released:</strong> {{ movie.released }}</p>
+                <p class="card-text"><strong>Runtime:</strong> {{ movie.runtime }}</p>
+                <p class="card-text"><strong>Genre:</strong>{% for genre in movie.genre.all %} {{genre}} {% endfor %}</p>
+                <p class="card-text"><strong>Director:</strong> {{ movie.director }} </p>
+                <p class="card-text"><strong>Writer:</strong> {% for writer in movie.writer.all %} {{writer}} {% endfor %}}</p>
+                <p class="card-text"><strong>Plot:</strong> {{ movie.plot }}</p>
+                <p class="card-text"><strong>IMDB Rating:</strong> {{ movie.imdb_rating }}</p>
+                <div class="text-end">
+                    <form action="{% url "watch-later" %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="movie_id" value="{{ movie.id}}">
+                    <button class="btn btn-outline-primary">Watch Later</button>
+                </form>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
-<section>
-    <div>
-        <form action="{% url "watch-later" %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="movie_id" value="{{ movie.id}}">
-            <button>Watch Later</button>
-        </form>
+
+
+{% if comments %}
+<div class="card border-secondary mb-3" style="max-width: 60rem;">
+    <div class="card-header">Comments</div>
+        {% for comment in comments %}
+        <div class="card-body text-secondary">
+            <h6 class="card-title">{{comment.user_name}}</h6>
+            <p class="card-text">{{comment.text}}</p>
+        </div>
+        {% endfor %}
     </div>
-</section>
+{% endif %}
+
 <section>
-    <div>
-        {% if comments %}
-            {% for comment in comments %}
-            <p>By {{comment.user_name}}</p>
-            <p>{{comment.text}}</p>
-            {% endfor %}
-        {% endif %}
-    </div>
-</section>
-<section>
-    <div>
-        <form action="{% url "a-release" slug=movie.slug %}" method="POST">
+    <div class="card" style="max-width: 40rem;">
+        <h6 class="card-header">Add comment</h6>
+        <form action="{% url "a-release" slug=movie.slug %}" method="POST" class="row g-3">
             {% csrf_token %}
-            {{ comment_form }}
-        <button>Save comment</button>
+            <div class="form-floating col-md-6">
+                {{comment_form.user_name}}
+                <label for="{{comment_form.user_name.id_for_label}}">Name</label>
+                {{comment_form.user_name.errors}}
+            </div>
+            <div class="form-floating col-md-6">
+                {{comment_form.text}}
+                <label for="{{comment_form.text.id_for_label}}">Comments</label>
+                {{comment_form.text.errors}}
+            </div>
+            <button class="btn btn-outline-info col-12">Save comment</button>
         </form>
     </div>
 </section>
