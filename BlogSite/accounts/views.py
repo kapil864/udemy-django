@@ -12,6 +12,10 @@ from .forms import SignUpForm
 class SignInView(View):
 
     def get(self, request):
+        # default key for query parameter
+        next = request.GET.get('next')
+        if next != '':
+            return render(request, 'accounts/login.html', {'next': next})
         return render(request, 'accounts/login.html')
 
     def post(self, request):
@@ -23,6 +27,9 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
+            next = request.POST.get('next')
+            if next != '':
+                return redirect(next)
             return redirect(reverse('release-index'))
         else:
             messages.error(request, 'Bad credentials')

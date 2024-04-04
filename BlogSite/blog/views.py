@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
-from .models import Movie, Comment
-from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
-from .forms import CommentForm
 from django.urls import reverse
+from django.views import View
+from django.views.generic import ListView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import Movie, Comment
+from .forms import CommentForm
 
 # Create your views here.
 
@@ -31,10 +35,11 @@ class ReleaseDetailView(View):
         try:
             movie = Movie.objects.get(slug=slug)
             comments = Comment.objects.filter(movie=movie)
-            return render(request, 'blog/movie.html', {'movie': movie,'comments':comments, 'comment_form': CommentForm()})
+            return render(request, 'blog/movie.html', {'movie': movie, 'comments': comments, 'comment_form': CommentForm()})
         except:
             raise Http404()
 
+    @method_decorator(login_required)
     def post(self, request, slug):
         form = CommentForm(request.POST)
         movie = Movie.objects.get(slug=slug)
@@ -43,11 +48,11 @@ class ReleaseDetailView(View):
             comment = form.save(commit=False)
             comment.movie = movie
             comment.save()
-            return HttpResponseRedirect(reverse('a-release',args=[slug]))
+            return HttpResponseRedirect(reverse('a-release', args=[slug]))
         return render(request, 'blog/movie.html', {'movie': movie, 'comment_form': form})
 
 
-class WatchLaterView(View):
+class WatchLaterView(LoginRequiredMixin, View):
 
     def get(self, request):
         stored_movies = request.session.get('stored_movies')
@@ -63,18 +68,16 @@ class WatchLaterView(View):
             context['has_movies'] = True
 
         return render(request, 'blog/watch_later.html', context=context)
-    
+
     def post(self, request):
         stored_movies = request.session.get('stored_movies')
-        
+
         if stored_movies is None:
             stored_movies = list()
-        
+
         movie_id = int(request.POST['movie_id'])
         if movie_id not in stored_movies:
             stored_movies.append(movie_id)
 
         request.session['stored_movies'] = stored_movies
         return HttpResponseRedirect('/')
-    
-
