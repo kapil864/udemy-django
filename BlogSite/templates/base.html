@@ -16,11 +16,16 @@
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url "all-releases" %}">All releases</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url "all-releases" %}">All releases</a>
+                    </li>
+                </ul>
+                <div class="">
+                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "login" %}">Login</a></button>
+                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "logout" %}">Logout</a></button>
+                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "signup" %}">Signup</a></button>
+                </div>
             </div>
         </div>
         </nav>
