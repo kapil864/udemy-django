@@ -21,11 +21,19 @@
                     <a class="nav-link active" aria-current="page" href="{% url "all-releases" %}">All releases</a>
                     </li>
                 </ul>
-                <div class="">
-                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "login" %}">Login</a></button>
-                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "logout" %}">Logout</a></button>
-                    <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "signup" %}">Signup</a></button>
+                <div>
+                    {% if user.is_authenticated %}
+                        <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "logout" %}">Logout</a></button>
+                    {% else %}
+                        <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "login" %}">Login</a></button>
+                        <button class="btn btn-outline-primary"><a class="link-underline link-underline-opacity-0" href="{% url "signup" %}">Signup</a></button>
+                    {% endif %}
                 </div>
+                {% if user.is_authenticated %}
+                    <span class="navbar-text">
+                        Hi {{ user.get_short_name }}
+                    </span>
+                {% endif %}
             </div>
         </div>
         </nav>
